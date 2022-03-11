@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class LaunchTableViewCell: UITableViewCell {
     
@@ -33,6 +34,7 @@ class LaunchTableViewCell: UITableViewCell {
     // MARK: Configure
     
     private func configureIconView() {
+        iconView.contentMode = .scaleAspectFit
         iconView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(iconView)
         iconView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 8).isActive = true
@@ -69,6 +71,9 @@ class LaunchTableViewCell: UITableViewCell {
     }
     
     func set(launch: Launch?) {
+        if let smallURL = launch?.links?.patch?.small, let url = URL(string: smallURL) {
+            iconView.sd_setImage(with: url, completed: nil)
+        }
         nameLabel.text = launch?.name
         dateLabel.text = launch?.date_utc
         if let success = launch?.success {

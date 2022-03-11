@@ -10,16 +10,30 @@ import UIKit
 class HomeViewController: UIViewController {
     
     let viewModel = ViewModel()
+    let filterButton = UIBarButtonItem()
     let tableView = UITableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTitle()
+        configureFilterButton()
         configureTableView()
         
         viewModel.fetchLaunches(completion: displayLaunches)
     }
     
     // MARK: Configure
+    
+    private func configureTitle() {
+        title = "Home"
+    }
+    
+    private func configureFilterButton() {
+        filterButton.image = UIImage(systemName: "line.3.horizontal.decrease.circle")
+        filterButton.target = self
+        filterButton.action = #selector(addFilter)
+        navigationItem.rightBarButtonItem = filterButton
+    }
     
     private func configureTableView() {
         tableView.delegate = self
@@ -38,6 +52,13 @@ class HomeViewController: UIViewController {
     
     func displayLaunches() {
         tableView.reloadData()
+    }
+    
+    @objc func addFilter() {
+        viewModel.filterByLaunchPad()
+        let alert = UIAlertController(title: "Filter by Launchpad", message: "", preferredStyle: .actionSheet)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 

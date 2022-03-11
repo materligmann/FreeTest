@@ -12,6 +12,7 @@ struct Launch: Codable {
     let date_utc: String
     let date_unix: Double
     let success: Bool?
+    let launchpad: String
     let details: String?
     let links: Links?
 }
